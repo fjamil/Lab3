@@ -6,16 +6,20 @@ import java.util.Comparator;
 
 public class Hand {
 	private ArrayList<Card> CardsInHand;
+	private ArrayList<Card> BestCardsInHand;
 
 	private int HandStrength;
+	private int Natural = 1;
 	private int HiHand;
 	private int LoHand;
 	private int Kicker;
+	
 	private boolean bScored = false;
 
 	private boolean Flush;
 	private boolean Straight;
 	private boolean Ace;
+	private static Deck dJoker = new Deck();
 
 	public Hand(Deck d) {
 		ArrayList<Card> Import = new ArrayList<Card>();
@@ -24,6 +28,13 @@ public class Hand {
 		}
 		CardsInHand = Import;
 	}
+	
+	HandleJokerWilds() {
+	}
+	
+}
+
+private void HandleJokerWilds
 	
 
 
@@ -60,6 +71,55 @@ public class Hand {
 		return h;
 	}	
 	
+	private void HandleJokerWilds() {
+		ArrayList<Hand> PlayersHand = new ArrayList<Hand>();
+		
+		PlayersHand.add(this);
+		int subCardNo = 0;
+		for (Card CardInHand : this.getCards()) {
+			PlayersHand = ExplodeHands(PlayersHand,SubCardNo);
+			SubCardNo++;
+		}
+		
+		for (Hand hEval : PlayersHand) {
+			hEval.EvalHand();
+	}
+	
+		System.out.println("Possible Hands:" + PlayersHand.size());
+		
+		Collections.sort(PlayersHand,Hand.HandRank);
+		
+		SetNatural();
+		
+		System.out.println("Possible Hands:" + PlayersHand.size());
+		
+		Collections.sort(PlayersHand,Hand.HandRank);
+		
+		SetNatural();
+		
+		this.setBestHand(PlayersHand.get(0).getCards());
+		this.HandStrength = PlayersHand.get(0).getHandStrength();
+		this.HiHand = PlayersHand.get(0).getHighPairStrength();
+		this.LoHand = PlayersHand.get(0).getLowPairStrength();
+		this.Kicker = PlayersHand.get(0).getKicker();
+		
+		
+		private static ArrayList<Hand> ExplodeHands(ArrayList<Hand> inHands, int SubCardNo) {
+			ArrayList<Hand> SubHands = new ArrayList<Hand>();
+			
+			for (Hand h : inHands) {
+				ArrayList<Card> c = h.getCards();
+				if (c.get(SubCardNo).getRank().getRank().getRank() == eRank.JOKER.getRank() || c.get(SubCardNo).getWild()== true)
+					
+				{
+					for (Card JokerSub : dJoker.getCards()) {
+						ArrayList<Card> SubCards = new ArrayList<Card>();
+						SubCards.add(JokerSub);
+					}
+				
+		}
+		
+		
 	public void EvalHand() {
 		// Evaluates if the hand is a flush and/or straight then figures out
 		// the hand's strength attributes
@@ -255,4 +315,9 @@ public class Hand {
 			return 0;
 		}
 	};
+
+	public Object getNatural() {
+		// 
+		return null;
+	}
 }
